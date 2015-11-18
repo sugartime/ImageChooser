@@ -21,4 +21,5 @@ dependencies {
     compile files('src/libs/universal-image-loader-1.9.4.jar')
     compile files('src/libs/android-support-v4.jar')
     compile files('src/libs/library-1.2.2.jar')
+    compile 'com.orhanobut:logger:1.9'
 }

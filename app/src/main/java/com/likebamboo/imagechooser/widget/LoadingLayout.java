@@ -19,33 +19,33 @@ import android.widget.TextView;
 import com.likebamboo.imagechooser.R;
 
 /**
- * 整块区域的Loading
+ * 블록영역 Loading
  * 
  * @author likebamboo
  */
 public class LoadingLayout extends LinearLayout {
     /**
-     * 正在加载ProgressBar
+     * 로드 ProgressBar
      */
     private ProgressBar mLoadingProgressBar = null;
 
     /**
-     * 重试布局
+     * 重试布局 레이아웃을 다시 시도
      */
     private LinearLayout mRetryLayout = null;
 
     /**
-     * 错误提示TextView
+     * 오류메세지 TextView
      */
     private TextView mErrorTv = null;
 
     /**
-     * 重试接口
+     * 재시도 인터페이스
      */
     private IRetryListener mRetryListener = null;
 
     /**
-     * 是否可以重试
+     * 다시 시도할지 여부
      */
     private boolean canRetry = true;
 
@@ -68,7 +68,7 @@ public class LoadingLayout extends LinearLayout {
     }
 
     /**
-     * 初始化布局
+     * 초기화 레이아웃
      */
     private void initView() {
         mLoadingProgressBar = (ProgressBar)findViewById(R.id.loading_pb);
@@ -92,7 +92,7 @@ public class LoadingLayout extends LinearLayout {
     }
 
     /**
-     * 显示/隐藏正在加载中。。。
+     * 로딩 포시/숨기기
      */
     public void showLoading(boolean show) {
         if (show) {
@@ -105,7 +105,7 @@ public class LoadingLayout extends LinearLayout {
     }
 
     /**
-     * 显示加载失败信息
+     * 디스플레이 정보를로드하지 못했습니다
      */
     public void showFailed(CharSequence msg) {
         setVisibility(View.VISIBLE);
@@ -119,7 +119,7 @@ public class LoadingLayout extends LinearLayout {
     }
 
     /**
-     * 显示"空"信息
+     * 디스플레이 "빈"메시지
      * 
      * @param msg
      */
@@ -134,7 +134,7 @@ public class LoadingLayout extends LinearLayout {
     }
 
     /**
-     * 设置重试监听器。
+     * 무게 모니터링 장치 설정
      * 
      * @param listener
      */

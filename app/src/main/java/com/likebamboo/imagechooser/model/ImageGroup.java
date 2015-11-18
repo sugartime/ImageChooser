@@ -11,18 +11,18 @@ package com.likebamboo.imagechooser.model;
 import java.util.ArrayList;
 
 /**
- * 一级GridView中每个item的数据模型
+  *각 항목에 대한 GridView에 데이터 모델
  * 
  * @author likebamboo
  */
 public class ImageGroup extends BaseModel {
     /**
-     * 文件夹名
+     * 폴더 이름
      */
     private String dirName = "";
 
     /**
-     * 文件夹下所有图片
+     * 폴더 사진
      */
     private ArrayList<String> images = new ArrayList<String>();
 
@@ -35,7 +35,7 @@ public class ImageGroup extends BaseModel {
     }
 
     /**
-     * 获取第一张图片的路径(作为封面)
+     * (커버 등) 경로의 첫 번째 그림
      * 
      * @return
      */
@@ -47,7 +47,7 @@ public class ImageGroup extends BaseModel {
     }
 
     /**
-     * 获取图片数量
+     * 사진 번호를 가져옵니다
      * 
      * @return
      */
@@ -60,7 +60,7 @@ public class ImageGroup extends BaseModel {
     }
 
     /**
-     * 添加一张图片
+     * 사진추가
      * 
      * @param image
      */
@@ -79,9 +79,9 @@ public class ImageGroup extends BaseModel {
 
     /**
      * <p>
-     * 重写该方法
+     * 이 메소드를 오버라이드 (override)
      * <p>
-     * 使只要图片所在的文件夹名称(dirName)相同就属于同一个图片组
+     * 픽처 (DIRNAME)는 사진과 함께 동일한 그룹에 속하는 폴더의 파일명 것이면
      */
     @Override
     public boolean equals(Object o) {

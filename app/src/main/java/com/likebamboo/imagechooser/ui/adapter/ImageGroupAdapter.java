@@ -26,23 +26,23 @@ import com.likebamboo.imagechooser.widget.MyImageView;
 import java.util.List;
 
 /**
- * 分组图片适配器
+ * 그룹 포토 어댑터
  * 
  * @author likebamboo
  */
 public class ImageGroupAdapter extends BaseAdapter {
     /**
-     * 上下文对象
+     * Context 객체
      */
     private Context mContext = null;
 
     /**
-     * 图片列表
+     * 사진 목록
      */
     private List<ImageGroup> mDataList = null;
 
     /**
-     * 容器
+     * 컨테이너
      */
     private View mContainer = null;
 

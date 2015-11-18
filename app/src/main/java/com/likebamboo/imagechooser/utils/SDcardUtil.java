@@ -11,14 +11,14 @@ package com.likebamboo.imagechooser.utils;
 import android.os.Environment;
 
 /**
- * SD卡操作工具类
+ * SD 카드의 동작 툴
  * 
  * @author likebamboo
  */
 public class SDcardUtil {
 
     /**
-     * 是否有SD卡
+     * SD 카드가 있는지 확인
      * 
      * @return
      */

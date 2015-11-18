@@ -23,19 +23,19 @@ import java.io.File;
 import java.util.ArrayList;
 
 /**
- * 使用contentProvider扫描图片异步任务
+ * contentProvider 비동기 작업을 사용하여 이미지를 스캔
  * 
  * @author likebamboo
  */
 public class ImageLoadTask extends BaseTask {
 
     /**
-     * 上下文对象
+     * Context 객체
      */
     private Context mContext = null;
 
     /**
-     * 存放图片<文件夹,该文件夹下的图片列表>键值对
+     * 사진을 저장하여 <폴더, 폴더 이미지 목록> 값 쌍
      */
     private ArrayList<ImageGroup> mGruopList = new ArrayList<ImageGroup>();
 
@@ -60,7 +60,7 @@ public class ImageLoadTask extends BaseTask {
     protected Boolean doInBackground(Void... params) {
         Uri mImageUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
         ContentResolver mContentResolver = mContext.getContentResolver();
-        // 构建查询条件，且只查询jpeg和png的图片
+        // JPEG 및 PNG 이미지
         StringBuilder selection = new StringBuilder();
         selection.append(Media.MIME_TYPE).append("=?");
         selection.append(" or ");

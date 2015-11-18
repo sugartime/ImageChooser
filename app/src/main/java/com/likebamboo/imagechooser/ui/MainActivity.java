@@ -24,32 +24,33 @@ import com.likebamboo.imagechooser.ui.adapter.ImageGroupAdapter;
 import com.likebamboo.imagechooser.utils.SDcardUtil;
 import com.likebamboo.imagechooser.utils.TaskUtil;
 import com.likebamboo.imagechooser.widget.LoadingLayout;
+import com.orhanobut.logger.Logger;
 
 import java.util.ArrayList;
 
 /**
- * 图片选择主界面，列出所有图片文件夹
+ * 사진은 메인 인터페이스를 선택, 모든 사진 폴더를 나열
  * 
  * @author likebamboo
  */
 public class MainActivity extends BaseActivity implements OnItemClickListener {
     /**
-     * loading布局
+     * loading 레이아웃
      */
     private LoadingLayout mLoadingLayout = null;
 
     /**
-     * 图片组GridView
+     * 사진 그룹의 GridView
      */
     private GridView mGroupImagesGv = null;
 
     /**
-     * 适配器
+     * 어댑터
      */
     private ImageGroupAdapter mGroupAdapter = null;
 
     /**
-     * 图片扫描一般任务
+     * 이미지 스캔 일반 작업
      */
     private ImageLoadTask mLoadTask = null;
 
@@ -62,7 +63,7 @@ public class MainActivity extends BaseActivity implements OnItemClickListener {
     }
 
     /**
-     * 初始化界面元素
+     * 초기화 인터페이스 요소
      */
     private void initView() {
         mLoadingLayout = (LoadingLayout)findViewById(R.id.loading_layout);
@@ -70,16 +71,19 @@ public class MainActivity extends BaseActivity implements OnItemClickListener {
     }
 
     /**
-     * 加载图片
+     *  로드 사진
      */
     private void loadImages() {
+
+        Logger.d("LoadImages");
+
         mLoadingLayout.showLoading(true);
         if (!SDcardUtil.hasExternalStorage()) {
             mLoadingLayout.showEmpty(getString(R.string.donot_has_sdcard));
             return;
         }
 
-        // 线程正在执行
+        // 스레드실행
         if (mLoadTask != null && mLoadTask.getStatus() == Status.RUNNING) {
             return;
         }
@@ -89,11 +93,11 @@ public class MainActivity extends BaseActivity implements OnItemClickListener {
             @Override
             public void onResult(boolean success, String error, Object result) {
                 mLoadingLayout.showLoading(false);
-                // 如果加载成功
+                // 로드성공
                 if (success && result != null && result instanceof ArrayList) {
                     setImageAdapter((ArrayList<ImageGroup>)result);
                 } else {
-                    // 加载失败，显示错误提示
+                    // 로드 오류 메시지를 표시 할 수 없습니다
                     mLoadingLayout.showFailed(getString(R.string.loaded_fail));
                 }
             }
@@ -102,7 +106,7 @@ public class MainActivity extends BaseActivity implements OnItemClickListener {
     }
 
     /**
-     * 构建GridView的适配器
+     * GridView 어댑터
      * 
      * @param data
      */

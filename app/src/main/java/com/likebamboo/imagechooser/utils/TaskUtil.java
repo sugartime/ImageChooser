@@ -12,19 +12,21 @@ import android.annotation.SuppressLint;
 import android.os.AsyncTask;
 import android.os.Build;
 
+import com.orhanobut.logger.Logger;
+
 /**
- * AsyncTask执行工具类
+ * AsyncTask 실행도구
  * 
  * @author likebamboo
  */
 public class TaskUtil {
 
     /**
-     * 执行异步任务
+     * 비동기작업수행
      * <p>
-     * android 2.3 及一下使用execute()方法
+     * android 2.3 이하, 사용 실행 방법
      * <p>
-     * android 3.0 及以上使用executeOnExecutor方法
+     * android 3.0 이상버전은 executeOnExecutor 를 사용
      * 
      * @param task
      * @param params
@@ -32,10 +34,13 @@ public class TaskUtil {
     @SuppressLint("NewApi")
     public static <Params, Progress, Result> void execute(AsyncTask<Params, Progress, Result> task,
             Params... params) {
+
+        Logger.d("Build.VERSION.SDK_INT :"+Build.VERSION.SDK_INT);
+
         if (Build.VERSION.SDK_INT >= 11) {
             task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, params);
         } else {
-            task.execute(params);
+            task.execute(params);  //execute 가 실행되면 onPreExecute() -> doInBackgound() 순으로 실행된다.
         }
     }
 }
