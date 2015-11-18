@@ -68,16 +68,16 @@ public class ImageLoadTask extends BaseTask {
 
         Cursor mCursor = null;
         try {
-            // 初始化游标
+            // 초기화 커서
             mCursor = mContentResolver.query(mImageUri, null, selection.toString(), new String[] {
                     "image/jpeg", "image/png"
             }, Media.DATE_TAKEN);
-            // 遍历结果
+            // 순회결과
             while (mCursor.moveToNext()) {
-                // 获取图片的路径
+                // 사진경로얻기
                 String path = mCursor.getString(mCursor.getColumnIndex(Media.DATA));
 
-                // 获取该图片的所在文件夹的路径
+                // 사진 경로 얻기
                 File file = new File(path);
                 String parentName = "";
                 if (file.getParentFile() != null) {
@@ -85,19 +85,19 @@ public class ImageLoadTask extends BaseTask {
                 } else {
                     parentName = file.getName();
                 }
-                // 构建一个imageGroup对象
+                //imageGroup 객체를 구축
                 ImageGroup item = new ImageGroup();
-                // 设置imageGroup的文件夹名称
+                //imageGroup 폴더 이름을 설정
                 item.setDirName(parentName);
 
-                // 寻找该imageGroup是否是其所在的文件夹中的第一张图片
+                //이미지 그룹 폴더 이름을 설정
                 int searchIdx = mGruopList.indexOf(item);
                 if (searchIdx >= 0) {
-                    // 如果是，该组的图片数量+1
+                    // 그렇다면, 그룹 번호 +1
                     ImageGroup imageGroup = mGruopList.get(searchIdx);
                     imageGroup.addImage(path);
                 } else {
-                    // 否则，将该对象加入到groupList中
+                    // 그렇지 않으면, 객체는 그룹리스트에 추가된다
                     item.addImage(path);
                     mGruopList.add(item);
                 }
