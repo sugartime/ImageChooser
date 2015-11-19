@@ -23,7 +23,7 @@ import com.likebamboo.imagechooser.utils.Util;
 import java.util.ArrayList;
 
 /**
- * 某个文件夹下的所有图片列表
+ * 모든 사진 목록의 폴더
  * 
  * @author likebamboo
  */
@@ -35,22 +35,22 @@ public class ImageListActivity extends BaseActivity implements OnItemClickListen
     public static final String EXTRA_TITLE = "extra_title";
 
     /**
-     * 图片列表extra
+     * 사진 목록 extra
      */
     public static final String EXTRA_IMAGES_DATAS = "extra_images";
 
     /**
-     * 图片列表GridView
+     * 사진 목록 GridView
      */
     private GridView mImagesGv = null;
 
     /**
-     * 图片地址数据源
+     * 사진 주소 데이터 소스
      */
     private ArrayList<String> mImages = new ArrayList<String>();
 
     /**
-     * 适配器
+     * 어댑터
      */
     private ImageListAdapter mImageAdapter = null;
 
@@ -71,14 +71,14 @@ public class ImageListActivity extends BaseActivity implements OnItemClickListen
     }
 
     /**
-     * 初始化界面元素
+     * 초기화 인터페이스 요소
      */
     private void initView() {
         mImagesGv = (GridView)findViewById(R.id.images_gv);
     }
 
     /**
-     * 构建并初始化适配器
+     * 어댑터 초기화 셋팅
      * 
      * @param datas
      */

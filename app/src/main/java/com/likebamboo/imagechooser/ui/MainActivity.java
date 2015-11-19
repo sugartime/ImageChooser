@@ -78,6 +78,7 @@ public class MainActivity extends BaseActivity implements OnItemClickListener {
         Logger.d("LoadImages");
 
         mLoadingLayout.showLoading(true);
+        Logger.d("SDcardUtil.hasExternalStorage():"+SDcardUtil.hasExternalStorage());
         if (!SDcardUtil.hasExternalStorage()) {
             mLoadingLayout.showEmpty(getString(R.string.donot_has_sdcard));
             return;

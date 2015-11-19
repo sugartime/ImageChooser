@@ -1,2 +1,2 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merger version="3"><dataSet config="main"><source path="D:\androidstudio_project\ImageChooser\app\src\main\assets"/></dataSet><dataSet config="debug"><source path="D:\androidstudio_project\ImageChooser\app\src\debug\assets"/></dataSet></merger>
+<merger version="3"><dataSet config="1.9"><source path="D:\androidstudio_project\ImageChooser\app\build\intermediates\exploded-aar\com.orhanobut\logger\1.9\assets"/></dataSet><dataSet config="main"><source path="D:\androidstudio_project\ImageChooser\app\src\main\assets"/></dataSet><dataSet config="debug"><source path="D:\androidstudio_project\ImageChooser\app\src\debug\assets"/></dataSet></merger>
