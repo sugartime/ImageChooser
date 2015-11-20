@@ -30,7 +30,7 @@ public class LoadingLayout extends LinearLayout {
     private ProgressBar mLoadingProgressBar = null;
 
     /**
-     * 重试布局 레이아웃을 다시 시도
+     * 레이아웃 다시 시도
      */
     private LinearLayout mRetryLayout = null;
 
@@ -61,6 +61,9 @@ public class LoadingLayout extends LinearLayout {
         super(context, attrs);
     }
 
+     /**
+     * xml 로 부터 모든 뷰를 inflate 를 끝내고 실행된다.
+     */
     @Override
     protected void onFinishInflate() {
         super.onFinishInflate();
@@ -79,7 +82,7 @@ public class LoadingLayout extends LinearLayout {
                 if (!canRetry) {
                     return false;
                 }
-                // onTouch down的时候才触发重试异步线程，否则会多次触发的。
+                // onTouch down 비동기 스레드가 다시시도
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     if (mRetryListener != null) {
                         mRetryListener.onRetry();

@@ -103,11 +103,11 @@ public class ImageLoadTask extends BaseTask {
                 }
             }
         } catch (Exception e) {
-            // 输出日志
+            // 로그
             L.e(e);
             return false;
         } finally {
-            // 关闭游标
+            // 커서닫기
             if (mCursor != null && !mCursor.isClosed()) {
                 mCursor.close();
             }

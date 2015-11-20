@@ -71,7 +71,7 @@ public class MainActivity extends BaseActivity implements OnItemClickListener {
     }
 
     /**
-     *  로드 사진
+     *  사진로드
      */
     private void loadImages() {
 

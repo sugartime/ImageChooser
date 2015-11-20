@@ -14,14 +14,14 @@ import android.util.AttributeSet;
 import android.widget.ImageView;
 
 /**
- * 自定义View，onMeasure方法中取图片宽和高
+ * 사용자 정의 View，onMeasure 이미지 폭 과 넓이 확인방법
  * 
  * @author likebamboo
  */
 public class MyImageView extends ImageView {
 
     /**
-     * 记录控件的宽和高
+     * 넓이와 높이 컨트롤
      */
     private Point mPoint = new Point();
 
@@ -33,15 +33,17 @@ public class MyImageView extends ImageView {
         super(context, attrs);
     }
 
+    //커스텀 뷰 생성시 반드시 오버라이딩 해야 하는 함수
+    //View의 크기를 결정할때 불리는 함수
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        mPoint.x = getMeasuredWidth();
+        mPoint.x = getMeasuredWidth();      //onDraw전에 View에 크기를 알고 싶은 경우 getMeasuredWidth() 호출
         mPoint.y = getMeasuredHeight();
     }
 
     /**
-     * 返回Point
+     * 포인트 리턴
      * 
      * @return
      */

@@ -30,69 +30,74 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 
 /**
+ *  LruCache는 LinkedHashMap을 사용하여 최근에 사용된 object의 strong reference를 보관하고 있다가
+ *
+ *  정해진 사이즈를 넘어가게 되면 가장 최근에 사용되지 않은 놈부터 쫓아내는 LRU 알고리즘을 사용하는 메모리 캐시다
+ *
+ *  *  이미지를 로드할 때 LruCache에서 먼저 찾아보고 있으면 그걸로 바로 업데이트 하고 아니면 백그라운드 쓰레드에서 로딩한다.
  * <p>
- * 本地图片加载器,采用的是异步解析本地图片,使用单例模式,线程池加载图片
+ * 지역 사진 로더, 싱글 톤 패턴을 사용하여, 비동기 결의 지역 이미지를 사용하여, 스레드 풀로드 이미지
  * <p>
- * 自己写图片加载调度算法：
+ * 스케줄링 알고리즘을로드하는 자신의 사진을 쓰기 :
  * <p>
- * 问题描述：线程池虽然可以同时加载好几张图片，但是当加载任务超过线程池的最大线程数时，加载任务仍然会表显出一定的顺序性。
+ * 문제 설명 : 스레드 풀은 꽤 많은 사진을로드하지만, 작업을로드 할 때하는 스레드의 최대 수를 스레드 풀을 초과 할 수 있지만,로드 작업이 여전히 테이블의 특정 순서를 표시합니다.
  * <p>
- * 这样就导致了一个问题，当我滑动到一个列表的底部时，可能需要等很久才看到图片加载出来。 那么可不可以想一种方法优先加载可视化区域的图片呢？
+ * 이것은 내가 목록의 맨 아래에 밀어 때 당신은 그림이 나오고로드를 참조하기 위해 오래 기다릴 필요가 있을지도 모른다는 문제가 있습니다. 따라서 지역 우선로드 이미지, 그것을 시각화하는 방법을 원하는 수 있습니까?
  * <p>
- * 于是，我决定自己维护一个请求列表，根据请求的不同优先级加载图片，具体是这样的。
+ * 그래서, 특히 경우, 우선 순위로드 사진 요청에 따라, 요청의 목록을 유지하기로 결정했다.
  * <p>
- * 首先判断图片是否在内存缓存中，如果有，直接从内存中取出图片。如果没有，构建一个图片请求对象，加入到请求列表。
- * (如果列表中原来有这个请求，删除原来的，将新的加入到列表末尾，这样可以保证该请求的优先级高)
+ * 제 1 메모리 캐시 화상 여부를 결정하고, 만약 그렇다면, 메모리로부터 화상을 제거한다. 그렇지 않은 경우, 픽쳐 요청 객체는 요청리스트에 추가 구축.
+ * (원래는이 요청이있는 경우 원본 목록 새로리스트의 마지막에 추가, 삭제 그래서 요청의 우선 순위를 보장 할 수있다)
  * 
  * <pre>
- * 线程池按照如下的规则处理图片请求列表:
+ * 사진 요청 목록과 함께 다음과 같은 규칙에 따라 스레드 풀 :
  * <p>
- * 1.如果请求列表中的请求数量小于线程池中空闲的线程数，顺序的将请求分配给线程池中空闲线程(这时候请求列表中的所有请求同时得到执行)
+ * 1. 요청리스트 경우 요청 수가 스레드 풀 유휴 스레드의 수보다 적은, 스레드 풀 유휴 스레드 요청 순서 (요청리스트가 모든 요청이 동시에 구현되는 이때)
  * <p>
- * 2.如果请求列表中的请求数量大于线程池中空闲的线程数，将空闲的线程的分配给优先级高的请求(优先级根据请求的先后顺序来定，后请求的优先级高)
+ * 2. 요청리스트가 수가 스레드 풀 유휴 스레드의 수보다 더 큰 경우 유휴 스레드는 (높은 우선 순위를 요청한 후, 요청 될 수있는 순서에 따라 우선 순위)의 요청에 높은 우선 순위를 할당 할
  * <p>
- * 当某个请求被执行完后，从请求列表中删除请求任务，同时，如果请求列表中还有未处理完的任务，继续按照上述规则处理请求。
+ * 요청이 태스크를 제거하는 요청리스트로부터의 요청의 이행 후이면 동안 요청 작업 목록뿐만 아니라 미처리는, 상기 규칙에 따라 상기 요청을 계속 처리하는 경우.
  * 
  * @author likebamboo
  */
 public class LocalImageLoader {
     /**
-     * 内存Lru缓存
+     * 캐시 메모리 LRU
      */
     private LruCache<String, Bitmap> mMemoryCache = null;
 
     /**
-     * 单例
+     * 싱클톤
      */
     private static LocalImageLoader mInstance = new LocalImageLoader();
 
     /**
-     * 创建一个固定线程数的线程池
+     * 스레드 풀의 고정 된 수의 만들기
      */
     private ThreadPoolExecutor mThreadPool = (ThreadPoolExecutor)Executors.newFixedThreadPool(3);
 
     /**
-     * 图片请求列表，用于调度
+     * 이미지 요청리스트, 스케줄링
      */
     private ArrayList<ImageRequest> mImagesList = new ArrayList<ImageRequest>();
 
     /**
-     * 处于正在请求状态的请求列表
+     * 리스트 요청 상태를 요청
      */
     private ArrayList<ImageRequest> mOnLoadingList = new ArrayList<ImageRequest>();
 
     /**
-     * 是否正处于调度状态
+     * 스케줄 상태에 있는지
      */
     private boolean onDispath = false;
 
     private LocalImageLoader() {
-        // 获取应用程序的最大内存
+        //응용 프로그램 최대 메모리를 가져옵니다
         final int maxMemory = (int)(Runtime.getRuntime().maxMemory() / 1024);
-        // 用最大内存的1/4来存储图片
+        //최대 메모리 1/4 사진을 저장
         final int cacheSize = maxMemory / 4;
         mMemoryCache = new LruCache<String, Bitmap>(cacheSize) {
-            // 获取每张图片的大小
+            //각 사진의 크기를 가져옵니다
             @Override
             protected int sizeOf(String key, Bitmap bitmap) {
                 return bitmap.getRowBytes() * bitmap.getHeight() / 1024;
@@ -101,7 +106,7 @@ public class LocalImageLoader {
     }
 
     /**
-     * 通过此方法来获取实例
+     * 인스턴스 얻기
      * 
      * @return
      */
@@ -110,7 +115,7 @@ public class LocalImageLoader {
     }
 
     /**
-     * 加载本地图片，对图片不进行裁剪
+     * 지역 이미지로드, 사진이 잘립니다되지 않습니다
      * 
      * @param path
      * @param mCallBack
@@ -121,7 +126,7 @@ public class LocalImageLoader {
     }
 
     /**
-     * 此方法来加载本地图片，这里的mPoint是用来封装ImageView的宽和高，我们会根据ImageView控件的大小来缩放Bitmap
+     * 이 방법은 이미지 뷰 MPOINT 폭과 높이를 패키징하기 위해 사용되는 지역의 이미지를로드하는 데 사용되는, 우리는 줌 제어 비트 맵 이미지 뷰의 크기에 기초 할 것이다
      * 
      * @param path
      * @param point
@@ -130,10 +135,10 @@ public class LocalImageLoader {
      */
     @SuppressLint("HandlerLeak")
     public Bitmap loadImage(final String path, final Point point, final ImageCallBack callBack) {
-        // 先获取内存中的Bitmap
+        // 먼저 메모리를 얻기 Bitmap
         Bitmap bitmap = getBitmapFromMemCache(path);
 
-        // 若该Bitmap不在内存缓存中，则将其加入到调度任务列表中
+        // 비트 맵의 캐시 메모리에 있지 않은 경우, 예약 된 작업의 목록에 추가된다
         if (bitmap == null) {
             addImageRequest(new ImageRequest(path, point, callBack));
         }
@@ -141,7 +146,7 @@ public class LocalImageLoader {
     }
 
     /**
-     * 添加图片请求任务
+     * 이미지 요청 작업 추가
      */
     private void addImageRequest(ImageRequest item) {
         if (null == item || TextUtils.isEmpty(item.getPath())) {
@@ -158,7 +163,7 @@ public class LocalImageLoader {
     }
 
     /**
-     * 删除图片请求任务
+     * 사진 요청 작업을 삭제하려면
      * 
      * @param path
      */
@@ -178,16 +183,16 @@ public class LocalImageLoader {
     }
 
     /**
-     * 任务调度
+     * 작업 스케줄링
      */
     private void dispatch() {
-        // 开始调度
+        // 예약 시작
         onDispath = true;
         // 如果当前线程池已满 ,不再处理请求任务
         if (mThreadPool.getActiveCount() >= mThreadPool.getCorePoolSize()) {
             return;
         }
-        // 空闲线程的数量
+        // 유휴 스레드 수
         int spareThreads = mThreadPool.getCorePoolSize() - mThreadPool.getActiveCount();
         // 如果请求列表中数量小于空闲的线程数，顺序处理请求
         synchronized (mImagesList) {
@@ -195,7 +200,7 @@ public class LocalImageLoader {
                 for (ImageRequest item : mImagesList) {
                     execute(item);
                 }
-            } else { // 否则从后面(优先级高)开始处理请求
+            } else { // 번호 스레드 수 유휴 요청리스트, 처리 요구의 순서 미만이면
                 for (int i = mImagesList.size() - 1; i >= mImagesList.size() - spareThreads; i--) {
                     execute(mImagesList.get(i));
                 }
@@ -204,12 +209,12 @@ public class LocalImageLoader {
     }
 
     /**
-     * 执行加载图片任务
+     * 로드 사진 작업 실행
      * 
      * @param request
      */
     private void execute(final ImageRequest request) {
-        // 如果该图片正在请求，忽略之。
+        //영상이 요청되는 경우, 무시
         if (mOnLoadingList.contains(request)) {
             return;
         }
@@ -237,7 +242,7 @@ public class LocalImageLoader {
     }
 
     /**
-     * 往内存缓存中添加Bitmap
+     * 비트 맵 메모리 캐시를 추가합니다
      * 
      * @param key
      * @param bitmap
@@ -251,18 +256,18 @@ public class LocalImageLoader {
     }
 
     /**
-     * 根据key来获取内存中的图片
+     * key에따라  메모리 이미지를 얻으려면
      * 
      * @param key
      * @return
      */
     private Bitmap getBitmapFromMemCache(String key) {
         Bitmap bitmap = null;
-        // 先从硬引用缓存中获取
+        // 하드 참조 캐시로 시작하기
         synchronized (mMemoryCache) {
             bitmap = mMemoryCache.get(key);
             if (bitmap != null) {
-                // 找到该Bitmap之后，将其移到LinkedHashMap的最前面，保证它在LRU算法中将被最后删除。
+                // 비트 맵을 발견 한 후, 최종적으로 LRU 알고리즘에서 삭제되는 것을 보장하기 위해, 제일의 LinkedHashMap 이동합니다.
                 mMemoryCache.remove(key);
                 mMemoryCache.put(key, bitmap);
                 return bitmap;
@@ -272,12 +277,12 @@ public class LocalImageLoader {
     }
 
     /**
-     * 根据View(主要是ImageView)的宽和高来获取图片的缩略图
+     * View에 따르면(주로 ImageView)썸네일의 폭과 높이가 사진을 얻을 수 있습니다
      * 
      * @param path
      * @param viewWidth
      * @param viewHeight
-     * @param isHighQuality 是否质量高
+     * @param isHighQuality 고품질인지
      * @return
      */
     private Bitmap decodeThumbBitmapForFile(String path, int viewWidth, int viewHeight,
@@ -287,24 +292,27 @@ public class LocalImageLoader {
             return null;
         }
         BitmapFactory.Options options = new BitmapFactory.Options();
-        // 设置为true,表示解析Bitmap对象，该对象不占内存
+         //읽어드리려는 이미지의 해상도를 알아내기 위해서
+         //BitmapFactory.Options의 inJustDecodeBounds = true 로 셋팅
+         //이미지를 메모리에 올려놓지 않고 해상도만 알아낼 수 있다
         options.inJustDecodeBounds = true;
         BitmapFactory.decodeFile(path, options);
-        // 设置缩放比例
+
+        // BitmapFactofy.Options의 inSampleSize 파라메터를 이용해서 이미지의 해상도를 줄임
         options.inSampleSize = computeScale(options, viewWidth, viewHeight);
         if (!isHighQuality) {
-            // PS:为了减少内存，可以将缩放比例调的更大一些，这样就不会导致系统频繁GC的情况了
+            // PS:메모리를 줄이기 위해 사이즈를 줄인다.
             options.inSampleSize += options.inSampleSize / 2 + 2;
         }
-        // 图片质量
+        // 화질
         options.inPreferredConfig = Config.RGB_565;
 
-        // 设置为false,解析Bitmap对象加入到内存中
+        // 실제 이미지를 읽어 메모리에 올릴 때는 inJustDecodeBounds를 false로 해둔다
         options.inJustDecodeBounds = false;
 
         options.inPurgeable = true;
         options.inInputShareable = true;
-        // 获取资源图片
+        // 자원 사진에 대한 액세스
         try {
             return BitmapFactory.decodeStream(new FileInputStream(f), null, options);
         } catch (Exception e) {
@@ -315,9 +323,9 @@ public class LocalImageLoader {
 
     /**
      * <p>
-     * 该方法来自google的图片缓存Demo
+     * 구글의 이미지 캐시 데모
      * <p>
-     * 请查看：http://developer.android.com/training/displaying-bitmaps/index.html
+     * 체크아웃：http://developer.android.com/training/displaying-bitmaps/index.html
      * <p>
      * Calculate an inSampleSize for use in a {@link BitmapFactory.Options}
      * object when decoding bitmaps using the decode* methods from
@@ -426,11 +434,11 @@ public class LocalImageLoader {
     }
     
     /**
-     * 加载本地图片的回调接口
+     * 지역 이미지를 콜백 인터페이스를로드
      */
     public interface ImageCallBack {
         /**
-         * 当子线程加载完了本地的图片，将Bitmap和图片路径回调在此方法中
+         * 비트 맵 및 그림 경로 콜백을 로딩 완료되면
          * 
          * @param bitmap
          * @param path

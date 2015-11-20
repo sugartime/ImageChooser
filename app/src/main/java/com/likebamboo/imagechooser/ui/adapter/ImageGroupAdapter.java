@@ -110,8 +110,7 @@ public class ImageGroupAdapter extends BaseAdapter {
             holder.mImageIv.setTag(path);
             // 사진로드
             // NativeImageLoade 사용, 이미지 로딩
-            Bitmap bitmap = LocalImageLoader.getInstance().loadImage(path,
-                    holder.mImageIv.getPoint(), new ImageCallBack() {
+            Bitmap bitmap = LocalImageLoader.getInstance().loadImage(path,holder.mImageIv.getPoint(), new ImageCallBack() {
                         @Override
                         public void onImageLoader(Bitmap bitmap, String path) {
                             ImageView mImageView = (ImageView)mContainer.findViewWithTag(path);
