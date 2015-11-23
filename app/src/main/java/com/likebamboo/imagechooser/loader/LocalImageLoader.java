@@ -156,7 +156,7 @@ public class LocalImageLoader {
             mImagesList.remove(item);
             mImagesList.add(item);
         }
-        // 如果当前不处于调度状态，开始调度
+        // 현재 상태를 예약하지 않은 경우, 일정을 시작합니다
         if (!onDispath) {
             dispatch();
         }
@@ -176,7 +176,7 @@ public class LocalImageLoader {
             if (mImagesList.size() > 0) {
                 dispatch();
             } else {
-                // 没有请求了，中止调度
+                //예약 일시중단
                 onDispath = false;
             }
         }
@@ -188,13 +188,13 @@ public class LocalImageLoader {
     private void dispatch() {
         // 예약 시작
         onDispath = true;
-        // 如果当前线程池已满 ,不再处理请求任务
+        //현재 스레드 풀이 가득 찬 경우, 더 이상 작업 처리 요청
         if (mThreadPool.getActiveCount() >= mThreadPool.getCorePoolSize()) {
             return;
         }
         // 유휴 스레드 수
         int spareThreads = mThreadPool.getCorePoolSize() - mThreadPool.getActiveCount();
-        // 如果请求列表中数量小于空闲的线程数，顺序处理请求
+        // 리스트는 유휴 스레드 요청의 개수보다 작으면，순차 처리 요구
         synchronized (mImagesList) {
             if (mImagesList.size() < spareThreads) {
                 for (ImageRequest item : mImagesList) {
@@ -228,14 +228,14 @@ public class LocalImageLoader {
                 if (size == null || size.x == 0 || size.y == 0) {
                     size = DeviceUtil.getDeviceSize(ICApplication.getContext());
                 }
-                // 先获取图片的缩略图
+                // 먼저 썸네일 이미지를 얻음
                 Bitmap mBitmap = decodeThumbBitmapForFile(request.getPath(), size.x, size.y, false);
                 Message msg = handler.obtainMessage();
                 msg.obj = mBitmap;
                 handler.sendMessage(msg);
 
                 mOnLoadingList.remove(request);
-                // 将图片加入到内存缓存
+                // 픽처 메모리 캐시에 추가되고
                 addBitmapToMemoryCache(request.getPath(), mBitmap);
             }
         });
@@ -258,10 +258,10 @@ public class LocalImageLoader {
     /**
      * key에따라  메모리 이미지를 얻으려면
      * 
-     * @param key
+     * @param key : path
      * @return
      */
-    private Bitmap getBitmapFromMemCache(String key) {
+     private Bitmap getBitmapFromMemCache(String key) {
         Bitmap bitmap = null;
         // 하드 참조 캐시로 시작하기
         synchronized (mMemoryCache) {

@@ -11,23 +11,23 @@ package com.likebamboo.imagechooser.loader;
 import android.graphics.Point;
 
 /**
- * 本地图片请求封装
+ * 지역 사진 요청 패키지
  * 
  * @author likebamboo
  */
 public class ImageRequest {
     /**
-     * 图片路径
+     * 사진경로
      */
     private String mPath = "";
 
     /**
-     * 图片size
+     * 사진size
      */
     private Point mSize = null;
 
     /**
-     * 加载图片后回调
+     * 화상 보정을 한 후 로드
      */
     private LocalImageLoader.ImageCallBack mCallBack = null;
 

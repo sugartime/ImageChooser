@@ -18,7 +18,10 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 
 /**
- * Application，程序入口
+ * Application，프로그램항목
+ * Application Class란 어플리케이션 컴포넌트들 사이에서 공동으로 멤버들을 사용할 수 있게 해주는  공유 클래스
+ *
+ * manifest 에 정의 되어있음
  * 
  * @author likebamboo
  */
@@ -33,7 +36,7 @@ public class ICApplication extends Application {
     }
 
     /**
-     * 获取Application的 上下文对象
+     * Application 적용 가져오기  Context객체
      * 
      * @return
      */
@@ -42,7 +45,7 @@ public class ICApplication extends Application {
     }
 
     /**
-     * 初始化ImageLoader
+     * ImageLoader 초기화
      * 
      * @param context
      */

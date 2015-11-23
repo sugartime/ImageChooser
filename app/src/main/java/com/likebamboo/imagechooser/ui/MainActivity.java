@@ -115,6 +115,7 @@ public class MainActivity extends BaseActivity implements OnItemClickListener {
         if (data == null || data.size() == 0) {
             mLoadingLayout.showEmpty(getString(R.string.no_images));
         }
+        //어댑터와 Gridlist 연결
         mGroupAdapter = new ImageGroupAdapter(this, data, mGroupImagesGv);
         mGroupImagesGv.setAdapter(mGroupAdapter);
         mGroupImagesGv.setOnItemClickListener(this);

@@ -102,7 +102,7 @@ public class ImageGroupAdapter extends BaseAdapter {
         ImageGroup item = getItem(position);
         if (item != null) {
             // 사진 경로
-            String path = item.getFirstImgPath();
+            String path = item.getFirstImgPath();    //첫번째사진
             // 이름
             holder.mTitleTv.setText(item.getDirName());
             // 계산

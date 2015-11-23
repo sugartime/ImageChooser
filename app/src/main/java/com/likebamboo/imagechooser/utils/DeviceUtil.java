@@ -13,7 +13,7 @@ import android.graphics.Point;
 import android.util.DisplayMetrics;
 
 /**
- * 与设备相关的工具类
+ * 장치관련 도구
  * 
  * @author likebamboo
  */
@@ -22,7 +22,7 @@ public class DeviceUtil {
     }
 
     /**
-     * 获取屏幕的宽高
+     * 화면의 폭과 높이를 얻음
      * 
      * @return
      */
