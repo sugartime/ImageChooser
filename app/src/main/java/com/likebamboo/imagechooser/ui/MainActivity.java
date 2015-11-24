@@ -89,6 +89,15 @@ public class MainActivity extends BaseActivity implements OnItemClickListener {
             return;
         }
 
+        /**
+         * 비동기로 폴더-이미지1
+         *              L이미지2
+         *              L이미지3
+         *          폴더-이미지1
+         *
+         * 위와같은 구조의 리스트를 리턴 한다.
+         *
+         **/
         mLoadTask = new ImageLoadTask(this, new OnTaskResultListener() {
             @SuppressWarnings("unchecked")
             @Override
@@ -96,6 +105,7 @@ public class MainActivity extends BaseActivity implements OnItemClickListener {
                 mLoadingLayout.showLoading(false);
                 // 로드성공
                 if (success && result != null && result instanceof ArrayList) {
+                    //어댑터와 리스트 연결
                     setImageAdapter((ArrayList<ImageGroup>)result);
                 } else {
                     // 로드 오류 메시지를 표시 할 수 없습니다
@@ -116,7 +126,7 @@ public class MainActivity extends BaseActivity implements OnItemClickListener {
             mLoadingLayout.showEmpty(getString(R.string.no_images));
         }
         //어댑터와 Gridlist 연결
-        mGroupAdapter = new ImageGroupAdapter(this, data, mGroupImagesGv);
+        mGroupAdapter = new ImageGroupAdapter(this, data, mGroupImagesGv); //getView() 에서 이미지사이즈를 조작하고 캐시에 등록한다.
         mGroupImagesGv.setAdapter(mGroupAdapter);
         mGroupImagesGv.setOnItemClickListener(this);
     }

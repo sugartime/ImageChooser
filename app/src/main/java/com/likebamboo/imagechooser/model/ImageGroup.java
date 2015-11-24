@@ -22,7 +22,7 @@ public class ImageGroup extends BaseModel {
     private String dirName = "";
 
     /**
-     * 폴더 사진
+     * 폴더에 들어있는 사진들
      */
     private ArrayList<String> images = new ArrayList<String>();
 

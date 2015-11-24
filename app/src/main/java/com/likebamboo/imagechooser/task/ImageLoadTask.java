@@ -18,6 +18,7 @@ import android.provider.MediaStore.Images.Media;
 import com.likebamboo.imagechooser.listener.OnTaskResultListener;
 import com.likebamboo.imagechooser.log.L;
 import com.likebamboo.imagechooser.model.ImageGroup;
+import com.orhanobut.logger.Logger;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -76,28 +77,34 @@ public class ImageLoadTask extends BaseTask {
             while (mCursor.moveToNext()) {
                 // 사진경로얻기
                 String path = mCursor.getString(mCursor.getColumnIndex(Media.DATA));
+                Logger.d("path= " + path);
 
                 // 사진 경로 얻기
                 File file = new File(path);
                 String parentName = "";
+                // 폴더가 존재하면
                 if (file.getParentFile() != null) {
+                    //Logger.d("!! isParentFile="+file.getParentFile().getName());
                     parentName = file.getParentFile().getName();
                 } else {
                     parentName = file.getName();
                 }
-                //imageGroup 객체를 구축
+                //imageGroup = 폴더
                 ImageGroup item = new ImageGroup();
                 //imageGroup 폴더 이름을 설정
                 item.setDirName(parentName);
 
-                //이미지 그룹 폴더 이름을 설정
+                //폴더가 들어있는 리스트에 들어있는지 확인
                 int searchIdx = mGruopList.indexOf(item);
+
+                //폴더리스트 에 폴더가 이미 있으면
                 if (searchIdx >= 0) {
-                    // 그렇다면, 그룹 번호 +1
+                    // 폴더에 이미지경로를 추가
                     ImageGroup imageGroup = mGruopList.get(searchIdx);
                     imageGroup.addImage(path);
                 } else {
-                    // 그렇지 않으면, 객체는 그룹리스트에 추가된다
+                    // 그렇지 않으면, 폴더에 이미지경로 추가후
+                    // 폴더리스트에 해당폴더 추가
                     item.addImage(path);
                     mGruopList.add(item);
                 }

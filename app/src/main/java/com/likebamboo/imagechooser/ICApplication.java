@@ -11,6 +11,7 @@ package com.likebamboo.imagechooser;
 import android.app.Application;
 import android.content.Context;
 
+import com.nostra13.universalimageloader.cache.disc.naming.HashCodeFileNameGenerator;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -51,11 +52,14 @@ public class ICApplication extends Application {
      */
     public static void initImageLoader(Context context) {
         ImageLoaderConfiguration.Builder builder = new ImageLoaderConfiguration.Builder(context)
-                .threadPriority(Thread.NORM_PRIORITY - 2).denyCacheImageMultipleSizesInMemory()
-                .discCacheFileNameGenerator(new Md5FileNameGenerator())
-                .memoryCache(new WeakMemoryCache()).discCacheSize(8 * 1024 * 1024)
+                .threadPriority(Thread.NORM_PRIORITY - 2)
+                .denyCacheImageMultipleSizesInMemory()
+                .diskCacheFileNameGenerator(new HashCodeFileNameGenerator())
+                //.discCacheFileNameGenerator(new Md5FileNameGenerator())  //disc->disk 로 변경
+                .memoryCache(new WeakMemoryCache())
+                .diskCacheSize(8 * 1024 * 1024) //disc->disk 로 변경
                 .tasksProcessingOrder(QueueProcessingType.LIFO);
-        // 如果是调试模式，输出日志，否则不输出
+        // 당신은 모드를 디버깅하는 경우，출력로그，그렇지 않으면 아무 출력하지않음
         if (BuildConfig.DEBUG) {
             builder.writeDebugLogs();
         }

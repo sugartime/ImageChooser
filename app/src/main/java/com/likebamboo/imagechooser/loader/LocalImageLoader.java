@@ -21,6 +21,7 @@ import android.widget.ImageView;
 
 import com.likebamboo.imagechooser.ICApplication;
 import com.likebamboo.imagechooser.utils.DeviceUtil;
+import com.orhanobut.logger.Logger;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -142,6 +143,7 @@ public class LocalImageLoader {
         if (bitmap == null) {
             addImageRequest(new ImageRequest(path, point, callBack));
         }
+        //Logger.d("bitmap="+bitmap);
         return bitmap;
     }
 
@@ -194,6 +196,9 @@ public class LocalImageLoader {
         }
         // 유휴 스레드 수
         int spareThreads = mThreadPool.getCorePoolSize() - mThreadPool.getActiveCount();
+
+        //Logger.d("mImagesList.size()="+mImagesList.size()+" spareThreads="+spareThreads);
+
         // 리스트는 유휴 스레드 요청의 개수보다 작으면，순차 처리 요구
         synchronized (mImagesList) {
             if (mImagesList.size() < spareThreads) {
@@ -214,7 +219,7 @@ public class LocalImageLoader {
      * @param request
      */
     private void execute(final ImageRequest request) {
-        //영상이 요청되는 경우, 무시
+        //현재 처리중인경우에는 무시
         if (mOnLoadingList.contains(request)) {
             return;
         }

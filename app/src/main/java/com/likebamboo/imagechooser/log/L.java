@@ -16,24 +16,24 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
- * 输出日志封装
+ * 출력 로그 패키지
  * 
  * @author likebamboo
  */
 public class L {
 
     /**
-     * 是否允许输出日志
+     * 출력 로그를 허용할지 여부
      */
     public static final boolean ENABLE_LOG = BuildConfig.DEBUG;
 
     /**
-     * 日志标志
+     * 로그인 타이틀
      */
     public static final String TAG = "ic-";
 
     /**
-     * 包名
+     * 패키지이름
      */
     public static final String PACKAGE_NAME = "com.likebamboo.imagechooser.";
 
