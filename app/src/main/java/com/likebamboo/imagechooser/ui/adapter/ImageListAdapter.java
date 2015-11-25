@@ -21,27 +21,28 @@ import com.likebamboo.imagechooser.R;
 import com.likebamboo.imagechooser.loader.LocalImageLoader;
 import com.likebamboo.imagechooser.utils.Util;
 import com.likebamboo.imagechooser.widget.MyImageView;
+import com.orhanobut.logger.Logger;
 
 import java.util.ArrayList;
 
 /**
- * 某个图片组中图片列表适配器
+ * gridview 체크박스기능 어댑터
  * 
  * @author likebamboo
  */
 public class ImageListAdapter extends BaseAdapter {
     /**
-     * 上下文对象
+     * Context 객체
      */
     private Context mContext = null;
 
     /**
-     * 图片列表
+     * 사진 목록
      */
     private ArrayList<String> mDataList = new ArrayList<String>();
 
     /**
-     * 选中的图片列表
+     * 사진 목록을 선택
      */
     private ArrayList<String> mSelectedList = new ArrayList<String>();
 
@@ -71,6 +72,9 @@ public class ImageListAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View view, ViewGroup parent) {
+
+        Logger.d("getView " + position + " " + view);
+
         final ViewHolder holder;
         if (view == null) {
             holder = new ViewHolder();
@@ -84,10 +88,10 @@ public class ImageListAdapter extends BaseAdapter {
         }
 
         final String path = getItem(position);
-        // 加载图片
+        // 사진로드
         holder.mImageIv.setTag(path);
-        // 加载图片
-        // 利用NativeImageLoader类加载本地图片
+        // 사진로드
+        // 클래스로딩 지역이미지 NativeImageLoader
         Bitmap bitmap = LocalImageLoader.getInstance().loadImage(path, holder.mImageIv.getPoint(),
                 LocalImageLoader.getImageListener(holder.mImageIv, path, R.drawable.pic_thumb, R.drawable.pic_thumb));
         if (bitmap != null) {
@@ -97,14 +101,14 @@ public class ImageListAdapter extends BaseAdapter {
         }
 
         holder.mSelectedCb.setChecked(false);
-        // 该图片是否选中
+        // 사진선택
         for (String selected : mSelectedList) {
             if (selected.equals(path)) {
                 holder.mSelectedCb.setChecked(true);
             }
         }
 
-        // 可点区域单击事件
+        // 클릭
         holder.mClickArea.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -122,7 +126,7 @@ public class ImageListAdapter extends BaseAdapter {
     }
 
     /**
-     * 将图片地址添加到已选择列表中
+     * 선택 목록에 그림 주소 추가
      * 
      * @param path
      */
@@ -134,7 +138,7 @@ public class ImageListAdapter extends BaseAdapter {
     }
 
     /**
-     * 将图片地址从已选择列表中删除
+     * 사진이 선택되어있는 주소 목록에서 삭제됩니다
      * 
      * @param path
      */
@@ -143,7 +147,7 @@ public class ImageListAdapter extends BaseAdapter {
     }
 
     /**
-     * 获取已选中的图片列表
+     * 선택한 사진의 목록을 가져옵니다
      * 
      * @return
      */

@@ -19,33 +19,33 @@ import com.likebamboo.imagechooser.ui.adapter.ImagePagerAdapter;
 import java.util.ArrayList;
 
 /**
- * 大图浏览Activity
+ * 큰이미지 Activity
  * 
  * @author likebamboo
  */
 public class ImageBrowseActivity extends Activity {
     /**
-     * 图片列表
+     * 사진검색
      */
     public static final String EXTRA_IMAGES = "extra_images";
 
     /**
-     * 位置
+     * 위치
      */
     public static final String EXTRA_INDEX = "extra_index";
 
     /**
-     * 图片列表数据源
+     * 데이터 소스 목록 사진
      */
     private ArrayList<String> mDatas = new ArrayList<String>();
 
     /**
-     * 进入到该界面时的索引
+     * 인터페이스로 색인 할 때
      */
     private int mPageIndex = 0;
 
     /**
-     * 图片适配器
+     * 사진 어댑터
      */
     private ImagePagerAdapter mImageAdapter = null;
 

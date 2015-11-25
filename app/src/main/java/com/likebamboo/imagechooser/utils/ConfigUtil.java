@@ -12,7 +12,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 /**
- * 配置信息(sharedPreference)工具类
+ * 구성 정보 (sharedPreference) 도구
  * 
  * @author likebamboo
  * @date 2014-4-26
@@ -20,12 +20,12 @@ import android.content.SharedPreferences;
 public class ConfigUtil {
 
     /**
-     * 配置文件名称
+     * 프로필 이름
      */
     private static String PREF_NAME = "ic_config";
 
     /**
-     * 选中的图片列表配置项名称
+     * 선택한 이미지 목록 구성 항목의 이름
      */
     public static String C_SELECTED_IMAGES = "c_selected_images";
 
@@ -35,7 +35,7 @@ public class ConfigUtil {
     private static ConfigUtil mInstance = null;
 
     /**
-     * 上下文对象
+     * Context 객체
      */
     private Context mContext = null;
 
@@ -50,7 +50,7 @@ public class ConfigUtil {
     protected SharedPreferences.Editor mEditor = null;
 
     /**
-     * 锁
+     * 자물쇠
      */
     private static Object lock = new Object();
 
@@ -62,7 +62,7 @@ public class ConfigUtil {
     }
 
     /**
-     * 获取单例
+     * 싱글톤 리턴
      * 
      * @param context
      * @return

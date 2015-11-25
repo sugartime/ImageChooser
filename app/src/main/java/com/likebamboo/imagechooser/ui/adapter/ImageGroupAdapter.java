@@ -81,7 +81,7 @@ public class ImageGroupAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View view, ViewGroup parent) {
 
-        Logger.d("getView Call!!");
+        Logger.d("getView " + position + " " + view);
         //ViewHolder
         // 뷰들을 홀더에 꼽아놓듯이 보관하는 객체
         // 각각의 Row를 그려낼 때 그 안의 위젯들의 속성을 변경하기 위해 findViewById를 호출하는데 이것의 비용이 큰것을 줄이기 위해 사용

@@ -143,4 +143,6 @@ public class MainActivity extends BaseActivity implements OnItemClickListener {
         mIntent.putStringArrayListExtra(ImageListActivity.EXTRA_IMAGES_DATAS, childList);
         startActivity(mIntent);
     }
+
+
 }

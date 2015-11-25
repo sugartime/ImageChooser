@@ -19,11 +19,12 @@ import android.widget.GridView;
 import com.likebamboo.imagechooser.R;
 import com.likebamboo.imagechooser.ui.adapter.ImageListAdapter;
 import com.likebamboo.imagechooser.utils.Util;
+import com.orhanobut.logger.Logger;
 
 import java.util.ArrayList;
 
 /**
- * 모든 사진 목록의 폴더
+ * 폴더안의 사진들
  * 
  * @author likebamboo
  */
@@ -96,6 +97,7 @@ public class ImageListActivity extends BaseActivity implements OnItemClickListen
      */
     @Override
     public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+        Logger.d("arg0="+arg0+" arg1="+arg1+" arg2="+arg2+" arg3="+arg3);
         Intent i = new Intent(this, ImageBrowseActivity.class);
         i.putExtra(ImageBrowseActivity.EXTRA_IMAGES, mImages);
         i.putExtra(ImageBrowseActivity.EXTRA_INDEX, arg2);
@@ -109,5 +111,7 @@ public class ImageListActivity extends BaseActivity implements OnItemClickListen
         }
         super.onBackPressed();
     }
+
+
 
 }
