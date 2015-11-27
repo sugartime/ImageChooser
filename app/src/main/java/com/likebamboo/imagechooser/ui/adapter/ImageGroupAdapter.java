@@ -101,6 +101,7 @@ public class ImageGroupAdapter extends BaseAdapter {
             holder = (ViewHolder)view.getTag();
         }
 
+        //이미지폴더를 가져옴
         ImageGroup item = getItem(position);
         if (item != null) {
             // 사진 경로
@@ -117,12 +118,16 @@ public class ImageGroupAdapter extends BaseAdapter {
                         public void onImageLoader(Bitmap bitmap, String path) {
                             ImageView mImageView = (ImageView)mContainer.findViewWithTag(path);
                             if (bitmap != null && mImageView != null) {
-                                mImageView.setImageBitmap(bitmap);
+                               mImageView.setImageBitmap(bitmap); //스레드 에서 처리한 bitmap 으로 공백이미지를 대체
                             }
                         }
                     });
 
-            //Logger.d("!! path="+path+" bitmap="+bitmap);
+            Logger.d("path="+path+" bitmap="+bitmap);
+
+            //bitmap 이 null 이 아닌경우는  LocalImageLoader.getInstance().loadImage() 에서 캐시된 이미지를 가져오는 경우다.
+            //처음 실행시에는 bitmap 의 imagegroup list.size()=이미지폴더갯수 만큼 공백이미지로 채워지고
+            //LocalImageLoader.getInstance().loadImage() 내의 스레드 에서 처리한 bitmap 으로 공백이미지가 대체된다
             if (bitmap != null) {
                 holder.mImageIv.setImageBitmap(bitmap);
             } else {

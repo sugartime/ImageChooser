@@ -159,6 +159,7 @@ public class LocalImageLoader {
             mImagesList.add(item);
         }
         // 현재 상태를 예약하지 않은 경우, 일정을 시작합니다
+        Logger.d("onDispath="+onDispath);
         if (!onDispath) {
             dispatch();
         }
@@ -229,6 +230,9 @@ public class LocalImageLoader {
             @Override
             public void run() {
                 mOnLoadingList.add(request);
+
+                Logger.d("excute(),mOnLoadingList.size()="+mOnLoadingList.size());
+
                 Point size = request.getSize();
                 if (size == null || size.x == 0 || size.y == 0) {
                     size = DeviceUtil.getDeviceSize(ICApplication.getContext());

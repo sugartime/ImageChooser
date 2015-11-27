@@ -10,7 +10,9 @@ package com.likebamboo.imagechooser.ui;
 
 import android.content.Intent;
 import android.os.AsyncTask.Status;
+import android.os.Build;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -30,7 +32,7 @@ import java.util.ArrayList;
 
 /**
  * 사진은 메인 인터페이스를 선택, 모든 사진 폴더를 나열
- * 
+ *
  * @author likebamboo
  */
 public class MainActivity extends BaseActivity implements OnItemClickListener {
@@ -118,7 +120,7 @@ public class MainActivity extends BaseActivity implements OnItemClickListener {
 
     /**
      * GridView 어댑터
-     * 
+     *
      * @param data
      */
     private void setImageAdapter(ArrayList<ImageGroup> data) {
@@ -145,4 +147,17 @@ public class MainActivity extends BaseActivity implements OnItemClickListener {
     }
 
 
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (Build.VERSION.SDK_INT  < 5 && keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
+            Logger.d("CDA onKeyDown Called");
+            onBackPressed();
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    public void onBackPressed() {
+        Logger.d("CDA onBackPressed Called");
+        finish();
+    }
 }
