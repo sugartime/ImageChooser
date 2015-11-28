@@ -191,6 +191,7 @@ public class LocalImageLoader {
     private void dispatch() {
         // 예약 시작
         onDispath = true;
+
         //현재 스레드 풀이 가득 찬 경우, 더 이상 작업 처리 요청
         if (mThreadPool.getActiveCount() >= mThreadPool.getCorePoolSize()) {
             return;
@@ -212,6 +213,8 @@ public class LocalImageLoader {
                 }
             }
         }
+
+        onDispath=false;
     }
 
     /**

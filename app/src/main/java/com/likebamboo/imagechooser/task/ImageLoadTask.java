@@ -52,11 +52,124 @@ public class ImageLoadTask extends BaseTask {
         result = mGruopList;
         setOnResultListener(listener);
     }
+    /*
+     * (non-Javadoc)
+     * @see android.os.AsyncTask#doInBackground(Params[])
+     */
+
+    @Override
+    protected Boolean doInBackground(Void... params) {
+
+        Uri mImageUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
+
+        /*
+        String[] projection = new String[]{
+                MediaStore.Images.Media._ID,
+                MediaStore.Images.Media.BUCKET_DISPLAY_NAME,
+                MediaStore.Images.Media.DATE_TAKEN,
+                MediaStore.Images.Media.MIME_TYPE
+        };
+        */
+
+        // JPEG 및 PNG 이미지
+        /*
+        StringBuilder selection = new StringBuilder();
+        selection.append(Media.MIME_TYPE).append("=image/jpeg");
+        selection.append(" or ");
+        selection.append(Media.MIME_TYPE).append("=image/png");
+        */
+
+        /*
+        String selection = Media.MIME_TYPE + "=image/jpeg"
+                         + " OR "
+                         + Media.MIME_TYPE + "=image/png";
+        */
+
+        String[] projection = new String[]{
+                MediaStore.Images.Media._ID,
+                MediaStore.Images.Media.DATA,
+                MediaStore.Images.Media.BUCKET_DISPLAY_NAME,
+                MediaStore.Images.Media.DATE_TAKEN
+        };
+
+
+        //ContentResolver mContentResolver = mContext.getContentResolver();
+
+        Cursor mCursor = mContext.getContentResolver().query(mImageUri,projection,null,null,Media.DATE_TAKEN);
+        try {
+
+            if (mCursor.moveToFirst()) {
+
+                String path;
+                String bucket;
+                String date;
+
+                int pathColumn = mCursor.getColumnIndex(
+                        MediaStore.Images.Media.DATA);
+
+                int bucketColumn = mCursor.getColumnIndex(
+                        MediaStore.Images.Media.BUCKET_DISPLAY_NAME);
+
+                int dateColumn = mCursor.getColumnIndex(
+                        MediaStore.Images.Media.DATE_TAKEN);
+
+
+
+
+                do {
+
+                    // Get the field values
+                    path = mCursor.getString(pathColumn);
+                    bucket = mCursor.getString(bucketColumn);
+                    date = mCursor.getString(dateColumn);
+
+                    //Logger.d(" path="+path+" bucket=" + bucket + "  date_taken=" + date);
+
+                    //imageGroup = 폴더
+                    ImageGroup item = new ImageGroup();
+                    //imageGroup 폴더 이름을 설정
+                    item.setDirName(bucket);
+
+                    //폴더가 들어있는 리스트에 들어있는지 확인
+                    int searchIdx = mGruopList.indexOf(item);
+
+                    //폴더리스트 에 폴더가 이미 있으면
+                    if (searchIdx >= 0) {
+                        // 폴더에 이미지경로를 추가
+                        mGruopList.get(searchIdx).addImage(path);
+                    } else {
+                        // 그렇지 않으면,
+                        item.addImage(path); //폴더에 이미지경로 추가후
+                        mGruopList.add(item); // 폴더리스트에 해당폴더 추가
+                    }
+                    //Logger.d("mGruopList.size()="+mGruopList.size());
+
+
+                } while (mCursor.moveToNext());
+            }
+
+        }catch (Exception e) {
+            // 로그
+            //L.e(e);
+            Logger.d("Error");
+            return false;
+        } finally {
+            // 커서닫기
+            if (mCursor != null && !mCursor.isClosed()) {
+                Logger.d("Cursor Close");
+                mCursor.close();
+            }
+        }
+
+
+        return true;
+    }
 
     /*
      * (non-Javadoc)
      * @see android.os.AsyncTask#doInBackground(Params[])
      */
+    /*
     @Override
     protected Boolean doInBackground(Void... params) {
         Uri mImageUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
@@ -73,7 +186,16 @@ public class ImageLoadTask extends BaseTask {
             mCursor = mContentResolver.query(mImageUri, null, selection.toString(), new String[] {
                     "image/jpeg", "image/png"
             }, Media.DATE_TAKEN);
-            // 순회결과
+
+            // cursor 의 결과가 항상 같은 데이터를가져옴, 휴대폰을 껏다키지 않은한
+            // if (mCursor.moveToFirst()) 와 do...while 문으로 변경
+            Logger.d("mCursor.moveToFirst()="+mCursor.moveToFirst());
+            Logger.d("result="+result);
+            Logger.d("mGruopList.size()="+mGruopList.size());
+
+            //if (mCursor.moveToFirst()) {
+
+               // do{
             while (mCursor.moveToNext()) {
                 // 사진경로얻기
                 String path = mCursor.getString(mCursor.getColumnIndex(Media.DATA));
@@ -109,6 +231,12 @@ public class ImageLoadTask extends BaseTask {
                     mGruopList.add(item);
                 }
             }
+
+               // }
+               //while (mCursor.moveToNext());
+
+
+
         } catch (Exception e) {
             // 로그
             L.e(e);
@@ -121,4 +249,5 @@ public class ImageLoadTask extends BaseTask {
         }
         return true;
     }
+    */
 }

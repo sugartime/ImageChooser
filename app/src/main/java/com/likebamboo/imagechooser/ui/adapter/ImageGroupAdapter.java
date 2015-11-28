@@ -117,8 +117,15 @@ public class ImageGroupAdapter extends BaseAdapter {
                         @Override
                         public void onImageLoader(Bitmap bitmap, String path) {
                             ImageView mImageView = (ImageView)mContainer.findViewWithTag(path);
+
+                            Logger.d("callback mImageView="+mImageView+"callback bitmap="+bitmap);
+
                             if (bitmap != null && mImageView != null) {
+
+                                //Logger.d("callback path="+path+"callback bitmap="+bitmap);
+
                                mImageView.setImageBitmap(bitmap); //스레드 에서 처리한 bitmap 으로 공백이미지를 대체
+
                             }
                         }
                     });
