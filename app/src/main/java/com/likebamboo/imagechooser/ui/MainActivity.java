@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.os.AsyncTask.Status;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
@@ -56,10 +57,15 @@ public class MainActivity extends BaseActivity implements OnItemClickListener {
      */
     private ImageLoadTask mLoadTask = null;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.main_toolbar);
+        setSupportActionBar(toolbar);
+
         initView();
         loadImages();
     }

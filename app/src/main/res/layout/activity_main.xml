@@ -4,6 +4,8 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity" >
 
+    <include layout="@layout/toolbar_main"/>
+
     <GridView
         android:id="@+id/images_gv"
         android:layout_width="match_parent"

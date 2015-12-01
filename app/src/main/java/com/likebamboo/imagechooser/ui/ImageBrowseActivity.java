@@ -8,10 +8,10 @@
 
 package com.likebamboo.imagechooser.ui;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
 
 import com.likebamboo.imagechooser.R;
 import com.likebamboo.imagechooser.ui.adapter.ImagePagerAdapter;
@@ -23,7 +23,7 @@ import java.util.ArrayList;
  * 
  * @author likebamboo
  */
-public class ImageBrowseActivity extends Activity {
+public class ImageBrowseActivity extends AppCompatActivity {
     /**
      * 사진검색
      */
