@@ -95,8 +95,10 @@ public class ImageLoadTask extends BaseTask {
 
         //ContentResolver mContentResolver = mContext.getContentResolver();
 
-        Cursor mCursor = mContext.getContentResolver().query(mImageUri,projection,null,null,Media.DATE_TAKEN);
+        //Cursor mCursor = mContext.getContentResolver().query(mImageUri,projection,null,null,Media.DATE_TAKEN);
+        Cursor mCursor = mContext.getContentResolver().query(mImageUri,projection,null,null,null);
         try {
+             Logger.d("mCursor.getCount()="+mCursor.getCount());
 
             if (mCursor.moveToFirst()) {
 
@@ -123,7 +125,7 @@ public class ImageLoadTask extends BaseTask {
                     bucket = mCursor.getString(bucketColumn);
                     date = mCursor.getString(dateColumn);
 
-                    //Logger.d(" path="+path+" bucket=" + bucket + "  date_taken=" + date);
+                    Logger.d(" path="+path+" bucket=" + bucket + "  date_taken=" + date);
 
                     //imageGroup = 폴더
                     ImageGroup item = new ImageGroup();
@@ -132,6 +134,8 @@ public class ImageLoadTask extends BaseTask {
 
                     //폴더가 들어있는 리스트에 들어있는지 확인
                     int searchIdx = mGruopList.indexOf(item);
+
+                    Logger.d("searchIdx="+searchIdx);
 
                     //폴더리스트 에 폴더가 이미 있으면
                     if (searchIdx >= 0) {

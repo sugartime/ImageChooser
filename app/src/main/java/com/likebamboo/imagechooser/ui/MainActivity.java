@@ -14,7 +14,11 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
@@ -58,16 +62,51 @@ public class MainActivity extends BaseActivity implements OnItemClickListener {
     private ImageLoadTask mLoadTask = null;
 
 
+    /**
+     * 툴바
+     *
+     */
+    private Toolbar mToolbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.main_toolbar);
-        setSupportActionBar(toolbar);
-
+        mToolbar = (Toolbar) findViewById(R.id.main_toolbar);
+        setSupportActionBar(mToolbar);
+        //getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setTitle("test");
+        /*
+        Window window = activity.getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        window.setStatusBarColor(activity.getResources().getColor(R.color.example_color));
+        */
         initView();
         loadImages();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+       // getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        //if (id == R.id.action_settings) {
+        //    return true;
+        //}
+
+        return super.onOptionsItemSelected(item);
     }
 
     /**
@@ -153,6 +192,7 @@ public class MainActivity extends BaseActivity implements OnItemClickListener {
     }
 
 
+
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (Build.VERSION.SDK_INT  < 5 && keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
@@ -164,6 +204,7 @@ public class MainActivity extends BaseActivity implements OnItemClickListener {
 
     public void onBackPressed() {
         Logger.d("CDA onBackPressed Called");
-        finish();
+       finish();
     }
+
 }

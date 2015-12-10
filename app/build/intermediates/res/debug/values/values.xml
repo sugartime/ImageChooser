@@ -17,11 +17,6 @@
     <color name="abc_search_url_text_normal">#7fa87f</color>
     <color name="abc_search_url_text_pressed">@android:color/black</color>
     <color name="abc_search_url_text_selected">@android:color/black</color>
-    <!-- From: file:/D:/androidstudio_project/ImageChooser/app/src/main/res/values/color.xml -->
-    <eat-comment/>
-    <color name="accent">#448AFF</color>
-    <!-- From: file:/D:/androidstudio_project/ImageChooser/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.2.1/res/values/values.xml -->
-    <eat-comment/>
     <color name="accent_material_dark">@color/material_deep_teal_200</color>
     <color name="accent_material_light">@color/material_deep_teal_500</color>
     <color name="background_floating_material_dark">#ff424242</color>
@@ -36,6 +31,12 @@
     <color name="bright_foreground_material_light">@android:color/black</color>
     <color name="button_material_dark">#ff5a595b</color>
     <color name="button_material_light">#ffd6d7d7</color>
+    <!-- From: file:/D:/androidstudio_project/ImageChooser/app/src/main/res/values/colors.xml -->
+    <eat-comment/>
+    <color name="colorPrimary">#FF5722</color>
+    <color name="colorPrimaryDark">#E64A19</color>
+    <!-- From: file:/D:/androidstudio_project/ImageChooser/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.2.1/res/values/values.xml -->
+    <eat-comment/>
     <color name="dim_foreground_disabled_material_dark">#80bebebe</color>
     <color name="dim_foreground_disabled_material_light">#80323232</color>
     <color name="dim_foreground_material_dark">#ffbebebe</color>
@@ -51,19 +52,8 @@
     <color name="material_blue_grey_950">#ff21272b</color>
     <color name="material_deep_teal_200">#ff80cbc4</color>
     <color name="material_deep_teal_500">#ff009688</color>
-    <!-- From: file:/D:/androidstudio_project/ImageChooser/app/src/main/res/values/color.xml -->
-    <eat-comment/>
-    <color name="primary">#03A9F4</color>
-    <color name="primary_dark">#0288D1</color>
-    <!-- From: file:/D:/androidstudio_project/ImageChooser/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.2.1/res/values/values.xml -->
-    <eat-comment/>
     <color name="primary_dark_material_dark">#ff000000</color>
     <color name="primary_dark_material_light">#ff757575</color>
-    <!-- From: file:/D:/androidstudio_project/ImageChooser/app/src/main/res/values/color.xml -->
-    <eat-comment/>
-    <color name="primary_light">#B3E5FC</color>
-    <!-- From: file:/D:/androidstudio_project/ImageChooser/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.2.1/res/values/values.xml -->
-    <eat-comment/>
     <color name="primary_material_dark">#ff212121</color>
     <color name="primary_material_light">#ffefefef</color>
     <color name="primary_text_default_material_dark">#ffffffff</color>
@@ -80,7 +70,7 @@
     <color name="switch_thumb_disabled_material_light">#ffbdbdbd</color>
     <color name="switch_thumb_normal_material_dark">#ffbdbdbd</color>
     <color name="switch_thumb_normal_material_light">#fff1f1f1</color>
-    <!-- From: file:/D:/androidstudio_project/ImageChooser/app/src/main/res/values/color.xml -->
+    <!-- From: file:/D:/androidstudio_project/ImageChooser/app/src/main/res/values/colors.xml -->
     <eat-comment/>
     <color name="translucent_black">#77000000</color>
     <declare-styleable name="ActionBar"><attr name="navigationMode"><enum name="normal" value="0"/><enum name="listMode" value="1"/><enum name="tabMode" value="2"/></attr><attr name="displayOptions"><flag name="none" value="0"/><flag name="useLogo" value="0x1"/><flag name="showHome" value="0x2"/><flag name="homeAsUp" value="0x4"/><flag name="showTitle" value="0x8"/><flag name="showCustom" value="0x10"/><flag name="disableHome" value="0x20"/></attr><attr name="title"/><attr format="string" name="subtitle"/><attr format="reference" name="titleTextStyle"/><attr format="reference" name="subtitleTextStyle"/><attr format="reference" name="icon"/><attr format="reference" name="logo"/><attr format="reference" name="divider"/><attr format="reference" name="background"/><attr format="reference|color" name="backgroundStacked"/><attr format="reference|color" name="backgroundSplit"/><attr format="reference" name="customNavigationLayout"/><attr name="height"/><attr format="reference" name="homeLayout"/><attr format="reference" name="progressBarStyle"/><attr format="reference" name="indeterminateProgressStyle"/><attr format="dimension" name="progressBarPadding"/><attr name="homeAsUpIndicator"/><attr format="dimension" name="itemPadding"/><attr format="boolean" name="hideOnContentScroll"/><attr format="dimension" name="contentInsetStart"/><attr format="dimension" name="contentInsetEnd"/><attr format="dimension" name="contentInsetLeft"/><attr format="dimension" name="contentInsetRight"/><attr format="dimension" name="elevation"/><attr format="reference" name="popupTheme"/></declare-styleable>
@@ -1157,6 +1147,29 @@
         <item name="android:scaleType">center</item>
         <item name="android:background">?attr/selectableItemBackground</item>
     </style>
+    <!-- From: file:/D:/androidstudio_project/ImageChooser/app/src/main/res/values/styles.xml -->
+    <eat-comment/>
+    <style name="MyTheme" parent="MyTheme.Base">
+    </style>
+    <style name="MyTheme.Base" parent="Theme.AppCompat.Light.NoActionBar">
+        <!--If you are using revision 22.1 please use just windowNoTitle. Without android:-->
+        <item name="windowNoTitle">true</item>
+        <!--We will be using the toolbar so no need to show ActionBar-->
+        <item name="windowActionBar">false</item>
+        <!-- Set theme colors from http://www.google.com/design/spec/style/color.html#color-color-palette-->
+        <!-- colorPrimary is used for the default action bar background -->
+        <item name="colorPrimary">#2196F3</item>
+        <!-- colorPrimaryDark is used for the status bar -->
+        <item name="colorPrimaryDark">#1976D2</item>
+        <!-- colorAccent is used as the default value for colorControlActivated
+             which is used to tint widgets -->
+        <item name="colorAccent">#FF4081</item>
+        <!-- You can also set colorControlNormal, colorControlActivated
+            colorControlHighlight and colorSwitchThumbNormal. -->
+
+    </style>
+    <!-- From: file:/D:/androidstudio_project/ImageChooser/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.2.1/res/values/values.xml -->
+    <eat-comment/>
     <style name="Platform.AppCompat" parent="android:Theme">
         <item name="android:windowNoTitle">true</item>
 
@@ -1387,21 +1400,6 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
-    <!-- From: file:/D:/androidstudio_project/ImageChooser/app/src/main/res/values/themes.xml -->
-    <eat-comment/>
-    <style name="Theme.MyTheme" parent="Theme.AppCompat.Light.NoActionBar">
-
-        <!-- Set AppCompat’s color theming attrs -->
-        <item name="colorPrimary">@color/primary</item>
-        <item name="colorPrimaryDark">@color/primary_dark</item>
-        <!-- colorAccent is used as the default value for colorControlActivated,
-                 which is used to tint widgets -->
-        <item name="colorAccent">@color/accent</item>
-
-    <!-- The rest of your attributes -->
-    </style>
-    <!-- From: file:/D:/androidstudio_project/ImageChooser/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.2.1/res/values/values.xml -->
-    <eat-comment/>
     <style name="ThemeOverlay.AppCompat" parent="Base.ThemeOverlay.AppCompat"/>
     <style name="ThemeOverlay.AppCompat.ActionBar" parent="Base.ThemeOverlay.AppCompat.ActionBar"/>
     <style name="ThemeOverlay.AppCompat.Dark" parent="Base.ThemeOverlay.AppCompat.Dark"/>
